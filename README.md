@@ -1,8 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tRPC Clerk Todo Application
+
+A modern Todo list application built with Next.js, tRPC, Clerk authentication, and PostgreSQL via Neon.
+
+## Features
+
+- User authentication with Clerk
+- PostgreSQL database with Drizzle ORM
+- Type-safe API with tRPC
+- Modern UI with Tailwind CSS
+- Todo management with customer records
 
 ## Getting Started
 
-First, run the development server:
+First, set up your environment variables:
+
+```bash
+# Clerk authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+CLERK_WEBHOOK_SECRET=your_clerk_webhook_secret
+
+# Database (Neon PostgreSQL)
+DATABASE_URL=your_neon_database_url
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +32,74 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/src/app` - Next.js app router pages
+- `/src/components` - React components
+- `/src/server` - tRPC server and routers
+- `/src/app/db` - Database schemas and migrations
+- `/src/app/api` - API routes including webhooks
+- `/docs` - Documentation
+
+## Authentication Flow
+
+This application implements a custom user sign-up flow that:
+
+1. Uses Clerk for authentication
+2. Creates corresponding customer records in the database
+3. Implements an onboarding process for new users
+
+For detailed documentation on the authentication flow, see:
+- [Authentication Overview](./docs/AUTHENTICATION.md)
+- [User Creation Flow](./docs/USER_CREATION.md)
+
+## Database Schema
+
+The application uses PostgreSQL with Drizzle ORM. Main tables:
+
+- `customers` - Customer records linked to Clerk users
+- `todos` - Todo items belonging to customers
+- `user_messages` - User messages
+
+## API Endpoints
+
+The application uses tRPC for type-safe API endpoints:
+
+- `getTodos` - Get todos for a customer
+- `createTodo` - Create a new todo
+- `updateTodo` - Update an existing todo
+- `deleteTodo` - Delete a todo
+- `createCustomer` - Create a new customer record
+- `getCustomerByEmail` - Get customer by email
+
+## Webhooks
+
+The application implements Clerk webhooks for:
+
+- User creation
+- User updates
+
+## Development
+
+To develop locally:
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables in `.env.local`
+4. Run the development server: `npm run dev`
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [tRPC Documentation](https://trpc.io/docs)
+- [Clerk Documentation](https://clerk.dev/docs)
+- [Drizzle ORM Documentation](https://orm.drizzle.team/)
+- [Neon PostgreSQL Documentation](https://neon.tech/docs)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE)
