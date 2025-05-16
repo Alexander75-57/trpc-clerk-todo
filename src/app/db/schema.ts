@@ -23,6 +23,7 @@ export const Customers = pgTable('customers', {
 });
 
 
+
 export const Todos = pgTable('todos', {
     id: serial('id').primaryKey(),
     content: text('content').notNull(),
