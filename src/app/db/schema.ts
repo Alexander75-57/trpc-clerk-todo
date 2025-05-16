@@ -11,6 +11,7 @@ import { relations } from 'drizzle-orm'; //Relation between two tables
 
 export const Customers = pgTable('customers', {
     id: serial('id').primaryKey(),
+    clerkId: varchar('clerk_id').unique().notNull(),
     firstName: varchar('first_name').notNull(),
     lastName: varchar('last_name').notNull(),
     email: varchar('email').unique().notNull(),
