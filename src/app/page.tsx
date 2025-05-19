@@ -22,7 +22,7 @@ export default function Home() {
           <SignedOut>
             {/* Redirect to sign-in if not signed in */}
             <Button asChild variant="default" size="lg" className="px-8 py-6 text-lg">
-              <Link href="/sign-in">My Todo List</Link>
+              <Link href="/sign-in">Click to open To-Do List</Link>
             </Button>
           </SignedOut>
         </div>
