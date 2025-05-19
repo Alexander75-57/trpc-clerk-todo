@@ -17,7 +17,6 @@ const isAuthed = t.middleware(({ next, ctx }) => {
     return next({
       ctx: {
         auth: ctx.auth,
-        db: ctx.db,
       },
     })
   })

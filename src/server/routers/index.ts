@@ -9,26 +9,7 @@ import { log } from 'console';
 
 
 export const todoRouter = router({
-    // Public greeting procedure (can be used without auth)
-    hello: publicProcedure.query(({ ctx }) => {
-    const { userId } = ctx.auth
-
-    if (!userId) {
-        return {
-        greeting: 'Hello! You are not signed in.',
-        }
-    }
-
-    return {
-        greeting: `Hello ${userId}!`,
-    }
-    }),
-
-    // for testing
-    getTestTodos: publicProcedure.query( async () => {
-    return [10, 20, 30]
-    }),
-    
+   
     // Get todos for the current user
     getTodos: protectedProcedure.query(async ({ ctx }) => {
         const { userId } = ctx.auth;
