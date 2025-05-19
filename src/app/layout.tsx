@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl="/">
         <TRPCProvider>
             <html lang="en">
                 <body
@@ -38,7 +38,7 @@ export default function RootLayout({
                         <div className="font-bold text-xl">Todo App</div>
                         <div>
                         <SignedIn>
-                            <UserButton afterSignOutUrl="/" />
+                            <UserButton />
                         </SignedIn>
                         <SignedOut>
                             <SignInButton />
