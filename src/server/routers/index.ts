@@ -1,12 +1,10 @@
-import { router, publicProcedure, protectedProcedure } from '@/server/trpc'
+import { router, protectedProcedure } from '@/server/trpc'
 
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
 
 import {Todos, Customers} from '@/app/db/schema';
 import { db } from '@/app/db';
-import { log } from 'console';
-
 
 export const todoRouter = router({
    
