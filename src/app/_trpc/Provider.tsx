@@ -12,7 +12,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       links: [
         httpBatchLink({
           /* url: 'http://localhost:3000/api/trpc', */
-          url: 'http://trpc-clerk-todo-vercel.app/api/trpc',
+          url: 'https://trpc-clerk-todo.vercel.app/api/trpc',
         }),
       ],
     })
