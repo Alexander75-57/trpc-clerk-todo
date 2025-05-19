@@ -99,6 +99,29 @@ export const todoRouter = router({
                 
             return updatedTodo[0];
         }),
+        
+    // Clear all todos for the current user
+    clearTodos: protectedProcedure
+        .mutation(async ({ ctx }) => {
+            const { userId } = ctx.auth;
+            
+            // Find customer by clerkId
+            const customer = await db.select().from(Customers)
+                .where(eq(Customers.clerkId, userId))
+                .limit(1)
+                .then(rows => rows[0]);
+            
+            if (!customer) {
+                throw new Error("Customer not found");
+            }
+            
+            // Delete all todos for this customer
+            const result = await db.delete(Todos)
+                .where(eq(Todos.customerId, customer.id))
+                .returning();
+                
+            return { count: result.length };
+        }),
 })
 
 export type TodoRouter = typeof todoRouter;

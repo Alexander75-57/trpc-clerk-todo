@@ -17,6 +17,11 @@ export default function Dashboard() {
             todosQuery.refetch();
         }
     });
+    const clearTodosMutation = trpc.clearTodos.useMutation({
+        onSuccess: () => {
+            todosQuery.refetch();
+        }
+    });
     
     const [content, setContent] = useState('');
     
@@ -29,6 +34,12 @@ export default function Dashboard() {
     
     const handleToggleTodo = (id: number) => {
         toggleTodoMutation.mutate({ id });
+    };
+    
+    const handleClearTodos = () => {
+        if (window.confirm('Are you sure you want to clear all todos? This action cannot be undone.')) {
+            clearTodosMutation.mutate();
+        }
     };
     
     return (
@@ -71,21 +82,33 @@ export default function Dashboard() {
                     ) : todosQuery.data?.length === 0 ? (
                         <div className='text-center py-8 text-gray-500'>You have no todos yet. Add one above!</div>
                     ) : (
-                        <ul className='space-y-3'>
-                            {todosQuery.data?.map((todo) => (
-                                <li key={todo.id} className='flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50'>
-                                    <input 
-                                        type="checkbox" 
-                                        checked={todo.done} 
-                                        onChange={() => handleToggleTodo(todo.id)}
-                                        className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                    />
-                                    <span className={`flex-grow ${todo.done ? 'line-through text-gray-400' : ''}`}>
-                                        {todo.content}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
+                        <>
+                            <ul className='space-y-3 mb-6'>
+                                {todosQuery.data?.map((todo) => (
+                                    <li key={todo.id} className='flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50'>
+                                        <input 
+                                            type="checkbox" 
+                                            checked={todo.done} 
+                                            onChange={() => handleToggleTodo(todo.id)}
+                                            className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        />
+                                        <span className={`flex-grow ${todo.done ? 'line-through text-gray-400' : ''}`}>
+                                            {todo.content}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                            
+                            <div className='flex justify-center mt-6'>
+                                <button
+                                    onClick={handleClearTodos}
+                                    disabled={clearTodosMutation.isPending}
+                                    className='py-2 px-4 bg-red-500 text-white font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors'
+                                >
+                                    {clearTodosMutation.isPending ? 'Clearing...' : 'Clear To-Do List'}
+                                </button>
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
